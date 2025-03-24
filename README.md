@@ -9,6 +9,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
 - **Git History Preservation**: Operations maintain proper Git history without force pushing
 - **Batch Operations**: Support for both single-file and multi-file operations
 - **Advanced Search**: Support for searching code, issues/PRs, and users
+- **Project Management**: Complete toolset for GitHub Projects (classic) management, including creating projects, managing columns, and working with cards
 
 
 ## Tools
@@ -277,6 +278,178 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `pull_number` (number): Pull request number
    - Returns: Array of pull request reviews with details like the review state (APPROVED, CHANGES_REQUESTED, etc.), reviewer, and review body
 
+27. `create_project`
+   - Create a new project in a GitHub repository
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `name` (string): Name of the project
+     - `body` (optional string): Description of the project
+   - Returns: Created project details
+
+28. `get_project`
+   - Get details about a specific project
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `project_number` (number): The project number
+   - Returns: Project details
+
+29. `update_project`
+   - Update an existing project's details
+   - Inputs:
+     - `project_id` (number): The unique identifier of the project
+     - `name` (optional string): New name of the project
+     - `body` (optional string): New description of the project
+     - `state` (optional string): State of the project ('open' or 'closed')
+   - Returns: Updated project details
+
+30. `list_projects`
+   - List all projects in a GitHub repository
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `state` (optional string): Filter projects by state ('open', 'closed', 'all')
+     - `page` (optional number): Page number for pagination (starts at 1)
+     - `per_page` (optional number): Number of results per page (max 100)
+   - Returns: Array of project details
+
+31. `create_project_column`
+   - Create a new column in a project
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `project_number` (number): The project number
+     - `name` (string): Name of the column
+   - Returns: Created column details
+
+32. `list_project_columns`
+   - List all columns in a project
+   - Inputs:
+     - `project_id` (number): The unique identifier of the project
+     - `page` (optional number): Page number for pagination (starts at 1)
+     - `per_page` (optional number): Number of results per page (max 100)
+   - Returns: Array of project column details
+
+33. `update_project_column`
+   - Update an existing project column
+   - Inputs:
+     - `column_id` (number): The unique identifier of the column
+     - `name` (string): New name of the column
+   - Returns: Updated column details
+
+34. `delete_project_column`
+   - Delete a project column
+   - Inputs:
+     - `column_id` (number): The unique identifier of the column
+   - Returns: Success message
+
+35. `add_card_to_column`
+   - Add a new card to a project column
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `column_id` (string): The ID of the column to add card to
+     - `content_type` (string): Type of content for the card ('Issue', 'PullRequest', 'Note')
+     - `content_id` (optional number): ID of the issue or pull request (required if content_type is Issue or PullRequest)
+     - `note` (optional string): The note content for the card (required if content_type is Note)
+   - Returns: Created card details
+
+36. `list_column_cards`
+   - List all cards in a project column
+   - Inputs:
+     - `column_id` (number): The unique identifier of the column
+     - `archived_state` (optional string): Filter by card archived state ('all', 'archived', 'not_archived')
+     - `page` (optional number): Page number for pagination (starts at 1)
+     - `per_page` (optional number): Number of results per page (max 100)
+   - Returns: Array of card details
+
+37. `move_card`
+   - Move a card to a different position or column
+   - Inputs:
+     - `card_id` (number): The unique identifier of the card
+     - `position` (string): The position of the card ('top', 'bottom', or 'after:<card_id>')
+     - `column_id` (optional number): The column ID to move the card to
+   - Returns: Success message
+
+38. `delete_card`
+   - Delete a card from a project
+   - Inputs:
+     - `card_id` (number): The unique identifier of the card
+   - Returns: Success message
+
+39. `list_organization_projects`
+   - List all projects in a GitHub organization (at organization level, not repository level)
+   - Inputs:
+     - `org` (string): Organization name
+     - `state` (optional string): Filter projects by state ('open', 'closed', 'all')
+     - `page` (optional number): Page number for pagination
+     - `per_page` (optional number): Number of results per page (max 100)
+   - Returns: Array of organization project details
+
+## Projects V2 Tools (GitHub's New Projects Experience)
+
+40. `list_organization_projects_v2`
+   - List projects V2 in a GitHub organization using GraphQL API
+   - Inputs:
+     - `org` (string): Organization name
+     - `first` (optional number): Number of projects to fetch (max 100)
+     - `after` (optional string): Cursor for pagination
+     - `orderBy` (optional object): How to order the projects
+   - Returns: Array of projects with pagination info
+
+41. `get_project_v2`
+   - Get details of a GitHub project V2 using GraphQL API
+   - Inputs:
+     - `id` (string): The node ID of the project
+   - Returns: Detailed project information including fields and views
+
+42. `create_project_v2`
+   - Create a new GitHub project V2 using GraphQL API
+   - Inputs:
+     - `ownerId` (string): The node ID of the organization or user
+     - `title` (string): Title of the project
+     - `description` (optional string): Description of the project
+   - Returns: Created project details
+
+43. `update_project_v2`
+   - Update a GitHub project V2 using GraphQL API
+   - Inputs:
+     - `projectId` (string): The node ID of the project
+     - `title` (optional string): New title for the project
+     - `description` (optional string): New description for the project
+     - `closed` (optional boolean): Whether to close the project
+   - Returns: Updated project details
+
+44. `add_item_to_project_v2`
+   - Add an issue or pull request to a GitHub project V2 using GraphQL API
+   - Inputs:
+     - `projectId` (string): The node ID of the project
+     - `contentId` (string): The node ID of the issue or pull request to add
+   - Returns: Added item details
+
+45. `list_project_v2_items`
+   - List items in a GitHub project V2 using GraphQL API
+   - Inputs:
+     - `projectId` (string): The node ID of the project
+     - `first` (optional number): Number of items to fetch (max 100)
+     - `after` (optional string): Cursor for pagination
+     - `filterBy` (optional object): Filters for the items
+   - Returns: Array of project items with their field values
+
+46. `update_project_v2_item_field`
+   - Update a field value for an item in a GitHub project V2 using GraphQL API
+   - Inputs:
+     - `projectId` (string): The node ID of the project
+     - `itemId` (string): The node ID of the item
+     - `fieldId` (string): The node ID of the field
+     - `value` (any): The new value for the field
+   - Returns: Updated item details
+
+## Project Management Notes
+
+**Deprecation Warning**: GitHub has announced that Projects (classic) is being deprecated in favor of the new Projects experience. Tools 27-39 work with the classic version of Projects, which may be removed in the future. For the new GitHub Projects experience, use tools 40-46 instead.
+
 ## Search Query Syntax
 
 ### Code Search
@@ -309,6 +482,7 @@ For detailed search syntax, see [GitHub's searching documentation](https://docs.
    - Select which repositories you'd like this token to have access to (Public, All, or Select)
    - Create a token with the `repo` scope ("Full control of private repositories")
      - Alternatively, if working only with public repositories, select only the `public_repo` scope
+     - For using the Projects V2 tools, make sure to include the `project` scope as well
    - Copy the generated token
 
 ### Usage with Claude Desktop

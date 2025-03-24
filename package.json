@@ -1,6 +1,6 @@
 {
-  "name": "@modelcontextprotocol/server-github",
-  "version": "0.6.2",
+  "name": "@earnbasejs/mcp-github",
+  "version": "0.6.6",
   "description": "MCP server for using the GitHub API",
   "license": "MIT",
   "author": "Anthropic, PBC (https://anthropic.com)",
