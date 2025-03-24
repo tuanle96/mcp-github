@@ -519,7 +519,7 @@ To use this with Claude Desktop, add the following to your `claude_desktop_confi
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-github"
+        "@earnbasejs/mcp-github"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
