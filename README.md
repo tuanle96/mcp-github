@@ -500,7 +500,7 @@ To use this with Claude Desktop, add the following to your `claude_desktop_confi
         "--rm",
         "-e",
         "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "mcp/github"
+        "ghcr.io/tuanle96/mcp-github"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
