@@ -189,7 +189,15 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `issue_number` (number): Issue number to retrieve
    - Returns: Github Issue object & details
 
-18. `get_pull_request`
+18. `delete_issue`
+   - Deletes an issue from a GitHub repository using GraphQL API
+   - Inputs:
+     - `owner` (string): Repository owner
+     - `repo` (string): Repository name
+     - `issue_number` (number): Issue number to delete
+   - Returns: Deletion confirmation with repository information
+
+19. `get_pull_request`
    - Get details of a specific pull request
    - Inputs:
      - `owner` (string): Repository owner
@@ -197,7 +205,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `pull_number` (number): Pull request number
    - Returns: Pull request details including diff and review status
 
-19. `list_pull_requests`
+20. `list_pull_requests`
    - List and filter repository pull requests
    - Inputs:
      - `owner` (string): Repository owner
@@ -211,7 +219,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `page` (optional number): Page number
    - Returns: Array of pull request details
 
-20. `create_pull_request_review`
+21. `create_pull_request_review`
    - Create a review on a pull request
    - Inputs:
      - `owner` (string): Repository owner
@@ -226,7 +234,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
        - `body` (string): Comment text
    - Returns: Created review details
 
-21. `merge_pull_request`
+22. `merge_pull_request`
    - Merge a pull request
    - Inputs:
      - `owner` (string): Repository owner
@@ -237,7 +245,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `merge_method` (optional string): Merge method ('merge', 'squash', 'rebase')
    - Returns: Merge result details
 
-22. `get_pull_request_files`
+23. `get_pull_request_files`
    - Get the list of files changed in a pull request
    - Inputs:
      - `owner` (string): Repository owner
@@ -245,7 +253,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `pull_number` (number): Pull request number
    - Returns: Array of changed files with patch and status details
 
-23. `get_pull_request_status`
+24. `get_pull_request_status`
    - Get the combined status of all status checks for a pull request
    - Inputs:
      - `owner` (string): Repository owner
@@ -253,7 +261,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `pull_number` (number): Pull request number
    - Returns: Combined status check results and individual check details
 
-24. `update_pull_request_branch`
+25. `update_pull_request_branch`
    - Update a pull request branch with the latest changes from the base branch (equivalent to GitHub's "Update branch" button)
    - Inputs:
      - `owner` (string): Repository owner
@@ -262,7 +270,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `expected_head_sha` (optional string): The expected SHA of the pull request's HEAD ref
    - Returns: Success message when branch is updated
 
-25. `get_pull_request_comments`
+26. `get_pull_request_comments`
    - Get the review comments on a pull request
    - Inputs:
      - `owner` (string): Repository owner
@@ -270,7 +278,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `pull_number` (number): Pull request number
    - Returns: Array of pull request review comments with details like the comment text, author, and location in the diff
 
-26. `get_pull_request_reviews`
+27. `get_pull_request_reviews`
    - Get the reviews on a pull request
    - Inputs:
      - `owner` (string): Repository owner
@@ -278,7 +286,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `pull_number` (number): Pull request number
    - Returns: Array of pull request reviews with details like the review state (APPROVED, CHANGES_REQUESTED, etc.), reviewer, and review body
 
-27. `create_project`
+28. `create_project`
    - Create a new project in a GitHub repository
    - Inputs:
      - `owner` (string): Repository owner (username or organization)
@@ -287,7 +295,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `body` (optional string): Description of the project
    - Returns: Created project details
 
-28. `get_project`
+29. `get_project`
    - Get details about a specific project
    - Inputs:
      - `owner` (string): Repository owner (username or organization)
@@ -295,7 +303,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `project_number` (number): The project number
    - Returns: Project details
 
-29. `update_project`
+30. `update_project`
    - Update an existing project's details
    - Inputs:
      - `project_id` (number): The unique identifier of the project
@@ -304,7 +312,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `state` (optional string): State of the project ('open' or 'closed')
    - Returns: Updated project details
 
-30. `list_projects`
+31. `list_projects`
    - List all projects in a GitHub repository
    - Inputs:
      - `owner` (string): Repository owner (username or organization)
@@ -314,7 +322,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `per_page` (optional number): Number of results per page (max 100)
    - Returns: Array of project details
 
-31. `create_project_column`
+32. `create_project_column`
    - Create a new column in a project
    - Inputs:
      - `owner` (string): Repository owner (username or organization)
@@ -323,7 +331,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `name` (string): Name of the column
    - Returns: Created column details
 
-32. `list_project_columns`
+33. `list_project_columns`
    - List all columns in a project
    - Inputs:
      - `project_id` (number): The unique identifier of the project
@@ -331,20 +339,20 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `per_page` (optional number): Number of results per page (max 100)
    - Returns: Array of project column details
 
-33. `update_project_column`
+34. `update_project_column`
    - Update an existing project column
    - Inputs:
      - `column_id` (number): The unique identifier of the column
      - `name` (string): New name of the column
    - Returns: Updated column details
 
-34. `delete_project_column`
+35. `delete_project_column`
    - Delete a project column
    - Inputs:
      - `column_id` (number): The unique identifier of the column
    - Returns: Success message
 
-35. `add_card_to_column`
+36. `add_card_to_column`
    - Add a new card to a project column
    - Inputs:
      - `owner` (string): Repository owner (username or organization)
@@ -355,7 +363,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `note` (optional string): The note content for the card (required if content_type is Note)
    - Returns: Created card details
 
-36. `list_column_cards`
+37. `list_column_cards`
    - List all cards in a project column
    - Inputs:
      - `column_id` (number): The unique identifier of the column
@@ -364,7 +372,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `per_page` (optional number): Number of results per page (max 100)
    - Returns: Array of card details
 
-37. `move_card`
+38. `move_card`
    - Move a card to a different position or column
    - Inputs:
      - `card_id` (number): The unique identifier of the card
@@ -372,13 +380,13 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `column_id` (optional number): The column ID to move the card to
    - Returns: Success message
 
-38. `delete_card`
+39. `delete_card`
    - Delete a card from a project
    - Inputs:
      - `card_id` (number): The unique identifier of the card
    - Returns: Success message
 
-39. `list_organization_projects`
+40. `list_organization_projects`
    - List all projects in a GitHub organization (at organization level, not repository level)
    - Inputs:
      - `org` (string): Organization name
@@ -389,7 +397,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
 
 ## Projects V2 Tools (GitHub's New Projects Experience)
 
-40. `list_organization_projects_v2`
+41. `list_organization_projects_v2`
    - List projects V2 in a GitHub organization using GraphQL API
    - Inputs:
      - `org` (string): Organization name
@@ -398,13 +406,13 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `orderBy` (optional object): How to order the projects
    - Returns: Array of projects with pagination info
 
-41. `get_project_v2`
+42. `get_project_v2`
    - Get details of a GitHub project V2 using GraphQL API
    - Inputs:
      - `id` (string): The node ID of the project
    - Returns: Detailed project information including fields and views
 
-42. `create_project_v2`
+43. `create_project_v2`
    - Create a new GitHub project V2 using GraphQL API
    - Inputs:
      - `ownerId` (string): The node ID of the organization or user
@@ -412,7 +420,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `description` (optional string): Description of the project
    - Returns: Created project details
 
-43. `update_project_v2`
+44. `update_project_v2`
    - Update a GitHub project V2 using GraphQL API
    - Inputs:
      - `projectId` (string): The node ID of the project
@@ -421,14 +429,14 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `closed` (optional boolean): Whether to close the project
    - Returns: Updated project details
 
-44. `add_item_to_project_v2`
+45. `add_item_to_project_v2`
    - Add an issue or pull request to a GitHub project V2 using GraphQL API
    - Inputs:
      - `projectId` (string): The node ID of the project
      - `contentId` (string): The node ID of the issue or pull request to add
    - Returns: Added item details
 
-45. `list_project_v2_items`
+46. `list_project_v2_items`
    - List items in a GitHub project V2 using GraphQL API
    - Inputs:
      - `projectId` (string): The node ID of the project
@@ -437,7 +445,7 @@ MCP Server for the GitHub API, enabling file operations, repository management, 
      - `filterBy` (optional object): Filters for the items
    - Returns: Array of project items with their field values
 
-46. `update_project_v2_item_field`
+47. `update_project_v2_item_field`
    - Update a field value for an item in a GitHub project V2 using GraphQL API
    - Inputs:
      - `projectId` (string): The node ID of the project

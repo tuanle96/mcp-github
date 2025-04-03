@@ -208,6 +208,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         inputSchema: zodToJsonSchema(projects.GetProjectSchema),
       },
       {
+        name: "delete_issue",
+        description: "Delete an issue from a GitHub repository using GraphQL API",
+        inputSchema: zodToJsonSchema(issues.DeleteIssueSchema),
+      },
+      {
         name: "update_project",
         description: "Update an existing project's details",
         inputSchema: zodToJsonSchema(projects.UpdateProjectSchema),
@@ -479,6 +484,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const issue = await issues.getIssue(args.owner, args.repo, args.issue_number);
         return {
           content: [{ type: "text", text: JSON.stringify(issue, null, 2) }],
+        };
+      }
+
+      case "delete_issue": {
+        const args = issues.DeleteIssueSchema.parse(request.params.arguments);
+        const result = await issues.deleteIssue(args.owner, args.repo, args.issue_number);
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
         };
       }
 

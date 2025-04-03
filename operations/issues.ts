@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { githubRequest, buildUrl } from "../common/utils.js";
+import { graphqlRequest } from "../common/graphql.js";
 
 export const GetIssueSchema = z.object({
   owner: z.string(),
@@ -50,6 +51,13 @@ export const UpdateIssueOptionsSchema = z.object({
   milestone: z.number().optional(),
   labels: z.array(z.string()).optional(),
   state: z.enum(["open", "closed"]).optional(),
+});
+
+// Schema cho xóa issue
+export const DeleteIssueSchema = z.object({
+  owner: z.string(),
+  repo: z.string(),
+  issue_number: z.number(),
 });
 
 export async function getIssue(owner: string, repo: string, issue_number: number) {
@@ -115,4 +123,46 @@ export async function updateIssue(
       body: options,
     }
   );
+}
+
+/**
+ * Xóa issue trong repository bằng GitHub GraphQL API
+ * @param owner - Chủ sở hữu repository
+ * @param repo - Tên repository
+ * @param issue_number - Số hiệu của issue cần xóa
+ * @returns Thông tin về thao tác xóa issue
+ */
+export async function deleteIssue(owner: string, repo: string, issue_number: number) {
+  // Bước 1: Lấy node_id (GraphQL ID) của issue
+  const issue = await getIssue(owner, repo, issue_number) as { node_id: string };
+
+  if (!issue || !issue.node_id) {
+    throw new Error(`Issue #${issue_number} not found or cannot be accessed`);
+  }
+
+  // Bước 2: Sử dụng GraphQL API để xóa issue
+  const mutation = `
+    mutation DeleteIssue($issueId: ID!) {
+      deleteIssue(input: { issueId: $issueId }) {
+        clientMutationId
+        repository {
+          id
+          name
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    issueId: issue.node_id
+  };
+
+  const result = await graphqlRequest(mutation, variables);
+
+  return {
+    success: true,
+    issue_number: issue_number,
+    repository: `${owner}/${repo}`,
+    ...result.data.deleteIssue
+  };
 }
